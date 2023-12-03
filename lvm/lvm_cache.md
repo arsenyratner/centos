@@ -8,14 +8,24 @@ RAID Level   Chunk size for HDD Arrays   Chunk size for SSD Arrays
 10                  (Disk quantity * 4Kb)/2          (Disk quantity * 8Kb)/2
 
 ```
-slowdisk1="/dev/sda"
-slowdisk2="/dev/sdb"
-fastdisk1="/dev/sdc"
-fastdisk2="/dev/sdd"
+devices="sda sdb sdc sdd"
+slowdisk1="/dev/sda1"
+slowdisk2="/dev/sdb1"
+fastdisk1="/dev/sdc1"
+fastdisk2="/dev/sdd1"
 slowmd="/dev/md0"
 fastmd="/dev/md1"
 
-mdadm --create --verbose --assume-clean $slowmd --level=1 --raid-devices=2 $slowdisk1 $slowdisk2
+for device in $devices; do
+  echo $device
+  dd if=/dev/zero of=/dev/$device bs=1M count=1
+  parted --script /dev/$device "mklabel gpt"  
+  parted --script /dev/$device "mkpart primary 0% 100%"
+  parted --script /dev/$device "set 1 raid on" 
+done
+
+mdadm --create --force --verbose --assume-clean $slowmd --level=1 --raid-devices=2 $slowdisk1 $slowdisk2
+mdadm --create --force --verbose --assume-clean $fastmd --level=1 --raid-devices=2 $fastdisk1 $fastdisk2
 
 ```
 
@@ -23,10 +33,11 @@ mdadm --create --verbose --assume-clean $slowmd --level=1 --raid-devices=2 $slow
 
 ## varaiables
 ```
-lvcache_slowdev="/dev/md127"
-lvcache_fastdev="/dev/md126"
-lvcache_vgname="vg1-data"
-lvcache_lv1_data="lv_vm_data"
+lvcache_slowdev=$slowmd
+lvcache_fastdev=$fastmd
+lvcache_vgname="vg1data"
+lvcache_lv0_thin="tp0"
+lvcache_lv1_data="lv_vm"
 lvcache_lv1_data_size="1024G"
 lvcache_lv1_cache="lv_vm_cache"
 lvcache_lv1_cache_size="200G"
@@ -50,5 +61,12 @@ lvs -a -o +devices
 
 lvconvert --type cache --cachepool $lvcache_vgname/$lvcache_lv1_cache $lvcache_vgname/$lvcache_lv1_data
 lvs -a -o +devices
+
+mkfs -t ext4 /dev/$lvcache_vgname/$lvcache_lv1_data
+mkdir /vm
+echo /dev/$lvcache_vgname/$lvcache_lv1_data /vm ext4 defaults 0 0 >> /etc/fstab
+systemctl daemon-reload
+mount -a 
+
 
 ```
