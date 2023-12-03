@@ -4,7 +4,7 @@ guacamolepodname="guacamole"
 guacamolelocalpath="/rpool/podman/store/guacamole"
 guacamolemysqldb="guacamoledb"
 guacamolemysqluser="guacamoleuser"
-guacamolemysqlpass="GawCetmok4"
+guacamolemysqlpass="RandomPass"
 
 podman pod create \
   --name $guacamolepodname \
