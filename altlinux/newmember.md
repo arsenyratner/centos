@@ -8,7 +8,7 @@ domuserpass=QAZxsw123
 domhostname=alt-ws7
 domdcname=alt-dc4
 
-apt-get update; apt-get dist-upgrade -y; update-kernel -y; apt-get clean
+apt-get update; sleep 2; apt-get dist-upgrade -y; sleep 2; update-kernel -y; sleep 2; apt-get clean
 apt-get update; apt-get install -y task-auth-ad-sssd packagekit gpupdate adp alterator-auth alterator-gpupdate
 hostnamectl set-hostname $domhostname.$domname
 reboot
