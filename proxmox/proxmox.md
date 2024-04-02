@@ -442,10 +442,6 @@ qm destroy $vmid; qm clone 9000 $vmid --full 1 --name $vmname; qm importdisk $vm
 vmid="9012"; vmname="tmp-redos73"; qcow2file=/mnt/appc-pc/pub/iso/redos/redos-7.3.4.qcow2
 qm destroy $vmid; qm clone 9000 $vmid --full 1 --name $vmname; qm importdisk $vmid $qcow2file $qcow2storage; qm set $vmid --virtio0 $qcow2storage:vm-${vmid}-disk-0${qcow2options}; qm set $vmid --boot c --bootdisk virtio0; qm template $vmid
 
-<<<<<<< HEAD
-vmid="9016"; vmname="tmp-alse-1.7.4uu1-base-gui"; qcow2file=/mnt/appc-pc/pub/iso/astra/alse-vanilla-gui-1.7.4uu1-qemu-base-mg11.3.0.qcow2; qcow2storage="local-zfs"; qcow2options=",cache=writeback"
-qm destroy $vmid; qm clone 9000 $vmid --full 1 --name $vmname; qm importdisk $vmid $qcow2file $qcow2storage; qm set $vmid --virtio0 $qcow2storage:vm-${vmid}-disk-0${qcow2options}; qm set $vmid --boot c --bootdisk virtio0; sleep 10; mount /dev/zvol/rpool/data/vm-${vmid}-disk-0-part1 /mnt/tmp; echo "" >> /mnt/tmp/etc/issue; echo "\4" >> /mnt/tmp/etc/issue; echo "\6" >> /mnt/tmp/etc/issue; echo "" >> /mnt/tmp/etc/issue; chroot /mnt/tmp apt update; chroot /mnt/tmp apt install -y python3-apt aptitude astra-update mc cloud-init spice-vdagent; umount /mnt/tmp; sleep 10; qm resize $vmid virtio0 +17G; qm template $vmid
-=======
 #qcow2storage="local-zfs"; qcow2options=",cache=writeback"; 
 #cipass='$6$bzSRia4pRwcBEZyY$eVroEqcDq8T8nglHMbhHs1bbsvfNWjR.5.qSbLo44O9/YWRMzT4sDkVyiMOMwOUVN.JXq39zos35dVHgVvYOI1'; ciuser='appc'; cipubkey='/var/tmp/appc.pub'
 vmid="9013"; vmname="tmp-alse-1.7.4uu1-base"; qcow2file=/mnt/appc-pc/pub/iso/astra/alse-vanilla-1.7.4uu1-cloud-base-mg12.0.1.qcow2
@@ -456,7 +452,9 @@ qm destroy $vmid; qm clone 9000 $vmid --full 1 --name $vmname; qm importdisk $vm
 
 vmid="9015"; vmname="tmp-alse-1.7.4uu1-max"; qcow2file=/mnt/appc-pc/pub/iso/astra/alse-vanilla-1.7.4uu1-cloud-max-mg12.0.1.qcow2
 qm destroy $vmid; qm clone 9000 $vmid --full 1 --name $vmname; qm importdisk $vmid $qcow2file $qcow2storage; qm set $vmid --virtio0 $qcow2storage:vm-${vmid}-disk-0${qcow2options}; qm set $vmid --boot c --bootdisk virtio0; sleep 10; mount /dev/zvol/rpool/data/vm-${vmid}-disk-0-part1 /mnt/tmp; echo "" >> /mnt/tmp/etc/issue; echo "\4" >> /mnt/tmp/etc/issue; echo "\6" >> /mnt/tmp/etc/issue; echo "" >> /mnt/tmp/etc/issue; umount /mnt/tmp; sleep 10; qm resize $vmid virtio0 +7G; qm template $vmid
->>>>>>> 0e5af2a544f42d7d20a38dcde461ae3d41d6ebed
+
+vmid="9016"; vmname="tmp-alse-1.7.4uu1-base-gui"; qcow2file=/mnt/appc-pc/pub/iso/astra/alse-vanilla-gui-1.7.4uu1-qemu-base-mg11.3.0.qcow2; qcow2storage="local-zfs"; qcow2options=",cache=writeback"
+qm destroy $vmid; qm clone 9000 $vmid --full 1 --name $vmname; qm importdisk $vmid $qcow2file $qcow2storage; qm set $vmid --virtio0 $qcow2storage:vm-${vmid}-disk-0${qcow2options}; qm set $vmid --boot c --bootdisk virtio0; sleep 10; mount /dev/zvol/rpool/data/vm-${vmid}-disk-0-part1 /mnt/tmp; echo "" >> /mnt/tmp/etc/issue; echo "\4" >> /mnt/tmp/etc/issue; echo "\6" >> /mnt/tmp/etc/issue; echo "" >> /mnt/tmp/etc/issue; chroot /mnt/tmp apt update; chroot /mnt/tmp apt install -y python3-apt aptitude astra-update mc cloud-init spice-vdagent; userdel -f -r astra; umount /mnt/tmp; sleep 10; qm resize $vmid virtio0 +17G; qm template $vmid
 
 vmid="9101"; vmname="tmp-w10pro"; qcow2file=/mnt/appc-pc/pub/iso/w10pro-image.qcow2
 qm destroy $vmid; qm clone 9100 $vmid --full 1 --name $vmname; qm importdisk $vmid $qcow2file $qcow2storage; qm set $vmid --virtio0 $qcow2storage:vm-${vmid}-disk-0${qcow2options}; qm set $vmid --boot c --bootdisk virtio0; qm resize $vmid virtio0 +7G; qm template $vmid
